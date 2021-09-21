@@ -1,0 +1,56 @@
+﻿@model Contact;
+
+<h1>Contact Details</h1>
+<div class="fluid">
+    <table class="table">
+        <tbody>
+            <tr class="row">
+                <td class="col-4">
+                    Name:
+                </td>
+                <td class="col-8">
+                    @Model.FirstName
+                </td>
+            </tr>
+            <tr class="row">
+                <td td class="col-4">
+                    Phone:
+                </td>
+                <td class="col-8">
+                    @Model.PhoneNumber
+                </td>
+            </tr>
+            <tr class="row">
+                <td td class="col-4">
+                    Email:
+                </td>
+                <td class="col-8">
+                    @Model.Email
+                </td>
+            </tr>
+            <tr class="row">
+                <td td class="col-4">
+                    Category:
+                </td>
+                <td td class="col-8">
+                    @ViewBag.CategoryName
+                </td>
+            </tr>
+            <tr class="row">
+                <td class="col-4">
+                    Organization:
+                </td>
+                <td class="col-8">
+                    @Model.Organization
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@Model.ContactId" button class="btn btn-primary bg-dark text-white text-left">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@Model.ContactId" button class="btn btn-primary bg-dark text-white text-left">Delete</a>
+                    <a asp-controller="Home" asp-action="Index" button class="btn button-primary bg-dark text-white text-left">Home</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
