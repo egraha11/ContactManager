@@ -31,15 +31,22 @@
             <label asp-for="CategoryId">Category</label>
             <select asp-for="CategoryId" class="form-control">
                 <option value="">select a category</option>
-                @foreach(Category c in ViewBag.Categories)
-            {
-                <option value="@c.CategoryId">@c.CategoryName</option>
-            }
+                @foreach (Category c in ViewBag.Categories)
+                {
+                    <option value="@c.CategoryId">@c.CategoryName</option>
+                }
             </select>
         </div>
         <input type="hidden" asp-for="ContactId" />
         <button type="submit" class="btn btn-primary bg-dark text-white">@ViewBag.Action</button>
-        <a asp-controller="Home" asp-action="Index" class="btn btn-primary bg-dark text-white">Cancel</a>
+        @if (ViewBag.Action == "Add")
+        {
+            <a asp-controller="Home" asp-action="Index" button class="btn btn-primary bg-dark text-white">Cancel</a>
+        }
+        @if (ViewBag.Action == "Edit")
+        {
+            <a asp-controller="Contact" asp-action="Details" asp-route-id="@Model.ContactId" button class="btn btn-primary bg-dark text-white">Cancel</a>
+        }
     </form>
 
 </div>

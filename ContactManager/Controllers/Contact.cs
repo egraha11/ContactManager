@@ -30,7 +30,7 @@ namespace ContactManager.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            ViewBag.Action = "Add Contact";
+            ViewBag.Action = "Add";
             ViewBag.Categories = context.Categories.ToList().OrderBy(c => c.CategoryId);
             return View("Edit", new Models.Contact());
         }
