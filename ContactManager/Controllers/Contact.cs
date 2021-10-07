@@ -67,6 +67,7 @@ namespace ContactManager.Controllers
             else
             {
                 ViewBag.Action = ( contact.ContactId == 0) ? "Add" : "Edit";
+                ViewBag.Categories = context.Categories.ToList().OrderBy(c => c.CategoryId);
                 return View(contact);
             }
         }
