@@ -15,27 +15,36 @@ namespace ContactManager.Controllers
 
         ContactContext context { get; set; }
 
-        private readonly ILogger<HomeController> _logger;
+        IRepository<ContactManager.Models.Contact> data { get; set; }
+
+
+        public HomeController(IRepository<ContactManager.Models.Contact> rep)
+        {
+            data = rep;
+        }
+
 
         /**
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-        */
-
         public HomeController(ContactContext ctx)
         {
             context = ctx;
         }
+        **/
+
+
 
         public IActionResult Index()
         {
-            var contacts = context.Contacts.Include(c => c.Category).OrderBy(c => c.FirstName).ToList();
+            //var contacts = context.Contacts.Include(c => c.Category).OrderBy(c => c.FirstName).ToList();
 
+            var contacts = data.List("Category");
             return View(contacts);
         }
 
+
+
+
+        /**
         public IActionResult Privacy()
         {
             return View();
@@ -46,5 +55,6 @@ namespace ContactManager.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        **/
     }
 }

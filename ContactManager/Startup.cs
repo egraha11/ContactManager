@@ -34,7 +34,11 @@ namespace ContactManager
                 options.LowercaseUrls = true;
                 options.AppendTrailingSlash = true;
             });
-        
+
+
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

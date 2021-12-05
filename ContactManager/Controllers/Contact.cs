@@ -11,18 +11,27 @@ namespace ContactManager.Controllers
     public class Contact : Controller
     {
 
-        public ContactContext context;
+        //public ContactContext context;
 
+        IRepository<ContactManager.Models.Contact> data { get; set; }
 
+        /**
         public Contact(ContactContext ctx)
         {
             context = ctx;
         }
+        **/
+
+        public Contact(IRepository<ContactManager.Models.Contact> rep)
+        {
+            data = rep;
+        }
 
         public IActionResult Details(int id)
         {
-            var contact = context.Contacts.Find(id);
-            ViewBag.CategoryName = context.Categories.Find(contact.CategoryId);
+            var contact = data.Get(id);
+            ViewBag.CategoryName = data.Get(contact.CategoryId);
+
             return View(contact);
         }
 
@@ -31,7 +40,7 @@ namespace ContactManager.Controllers
         public IActionResult Add()
         {
             ViewBag.Action = "Add";
-            ViewBag.Categories = context.Categories.ToList().OrderBy(c => c.CategoryId);
+            ViewBag.Categories = data.List("Category").OrderBy(c => c.CategoryId);
             return View("Edit", new Models.Contact());
         }
 
@@ -40,9 +49,9 @@ namespace ContactManager.Controllers
         public IActionResult Edit(int id)
         {
 
-            var contact = context.Contacts.Find(id);
+            var contact = data.Get(id);
             ViewBag.Action = "Edit";
-            ViewBag.Categories = context.Categories.ToList().OrderBy(c => c.CategoryId);
+            ViewBag.Categories = data.List("Category").OrderBy(c => c.CategoryId);
 
             return View(contact);
         }
@@ -55,28 +64,31 @@ namespace ContactManager.Controllers
             {
                 if(contact.ContactId == 0)
                 {
-                    context.Contacts.Add(contact);
+                    data.Insert(contact);
                 }
                 else
                 {
-                    context.Update(contact);
+                    data.Update(contact);
                 }
-                context.SaveChanges();
+                data.Save();
                 return RedirectToAction("Index", "Home");
             }
             else
             {
                 ViewBag.Action = ( contact.ContactId == 0) ? "Add" : "Edit";
-                ViewBag.Categories = context.Categories.ToList().OrderBy(c => c.CategoryId);
+                ViewBag.Categories = data.List("Category").OrderBy(c => c.CategoryId);
                 return View(contact);
             }
         }
+
+
+
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
 
-            var contact = context.Contacts.Find(id);
+            var contact = data.Get(id);
 
             return View(contact);
         }
@@ -86,8 +98,8 @@ namespace ContactManager.Controllers
         public IActionResult Delete(Models.Contact contact)
         {
 
-            context.Contacts.Remove(contact);
-            context.SaveChanges();
+            data.Delete(contact);
+            data.Save();
 
             return RedirectToAction("Index", "Home");
         }
